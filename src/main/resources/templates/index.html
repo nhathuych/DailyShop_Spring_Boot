@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daily Shop | Home</title>
+</head>
+<body>
+
+<div th:replace="header"></div>
+
+<!-- Start slider -->
+<div class="container">
+    <section id="aa-slider">
+        <div class="aa-slider-area">
+            <div id="sequence" class="seq">
+                <div class="seq-screen">
+                    <img data-seq th:src="@{/img/slider/amazon.jpg}" alt="Men slide img"/>
+                </div>
+                <!-- slider navigation btn -->
+                <fieldset class="seq-nav" aria-controls="sequence" aria-label="Slider buttons">
+                    <a type="button" class="seq-prev" aria-label="Previous"><span class="fa fa-angle-left"></span></a>
+                    <a type="button" class="seq-next" aria-label="Next"><span class="fa fa-angle-right"></span></a>
+                </fieldset>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- / slider -->
+<!-- Products section -->
+<section id="aa-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="aa-product-area">
+                        <div class="aa-product-inner">
+                            <!-- start prduct navigation -->
+                            <ul class="nav nav-tabs aa-products-tab">
+                                <li class="active"><a href="#men" data-toggle="tab">Tất cả sản phẩm</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- Start men product category -->
+                                <div class="tab-pane fade in active" id="men">
+                                    <ul class="aa-product-catg">
+                                        <th:block th:each="item : ${sanphams}">
+                                            <!-- start single product item -->
+                                            <li>
+                                                <figure>
+                                                    <a class="aa-product-img" href="#">
+                                                        <img th:src="@{/img/product/} + ${item.getHinhAnh()}"
+                                                             alt="polo shirt img" th:width="250" th:height="300">
+                                                    </a>
+                                                    <a class="aa-add-card-btn" href="#">
+                                                        <span class="fa fa-shopping-cart"></span>
+                                                        Add To Cart
+                                                    </a>
+                                                    <figcaption>
+                                                        <h4 class="aa-product-title"><a href="#"
+                                                                                        th:text="${item.getTenSanPham()}"></a>
+                                                        </h4>
+                                                        <span class="aa-product-price"
+                                                              th:text=" '$ ' + ${item.getGiaTien()}"></span>
+                                                    </figcaption>
+                                                </figure>
+                                                <div class="aa-product-hvr-content">
+                                                    <a href="#" data-toggle="tooltip" data-placement="top"
+                                                       title="Add to Wishlist">
+                                                        <span class="fa fa-heart-o"></span>
+                                                    </a>
+                                                    <a href="#" data-toggle="tooltip" data-placement="top"
+                                                       title="Compare">
+                                                        <span class="fa fa-exchange"></span>
+                                                    </a>
+                                                    <a href="#" data-toggle2="tooltip" data-placement="top"
+                                                       title="Quick View" data-toggle="modal"
+                                                       data-target="#quick-view-modal">
+                                                        <span class="fa fa-search"></span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                    <a class="aa-browse-btn" href="#">Browse all Product <span
+                                            class="fa fa-long-arrow-right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Products section -->
+
+<div th:replace="footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daily Shop | Checkout Page</title>
+</head>
+<body>
+
+<div th:replace="header"></div>
+
+<!-- catg header banner section -->
+<section id="aa-catg-head-banner">
+    <img th:src="@{/img/slider/abstrakt-banners.jpg}" alt="fashion img">
+    <div class="aa-catg-head-banner-area">
+        <div class="container">
+            <div class="aa-catg-head-banner-content">
+                <h2>Checkout Page</h2>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Checkout</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / catg header banner section -->
+
+<!-- Cart view section -->
+<section id="checkout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="checkout-area">
+                    <form th:action="@{/checkout}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="checkout-left">
+                                    <div class="panel-group" id="accordion">
+                                        <!-- Billing Details -->
+                                        <div class="panel panel-default aa-checkout-billaddress">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapseThree">
+                                                        Billing Details
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="aa-checkout-single-bill">
+                                                                <label>Full Name:</label>
+                                                                <input name="fullName" type="text"
+                                                                       placeholder="Full Name"
+                                                                       th:value="${session.currentUser != null ? session.currentUser.getFullName() : ''}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="aa-checkout-single-bill">
+                                                                <label>Phone Number:</label>
+                                                                <input name="phoneNumber" type="text"
+                                                                       placeholder="Phone Number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="aa-checkout-single-bill">
+                                                                <label>Address:</label>
+                                                                <input name="address" type="text" placeholder="Address"
+                                                                       th:value="${session.currentUser != null ? session.currentUser.getAddress() : ''}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="aa-checkout-single-bill">
+                                                                <label>Note:</label>
+                                                                <textarea name="note" rows="4"
+                                                                          placeholder="Note............."></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="aa-checkout-single-bill">
+                                                                <input name="btnOrder" type="submit"
+                                                                       class="aa-add-card-btn" value="Submit">
+                                                                <span th:text="${msgGioHang}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checkout-right">
+                                    <h4>Order Summary</h4>
+                                    <div class="aa-order-summary-area">
+                                        <table class="table table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Product</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <th:block th:each="item: ${dsSanPham}">
+                                                <tr>
+                                                    <td><img th:src="@{/img/product/} + ${item.getHinhAnh()}"
+                                                             style="height: 60px; width: 55px;"></td>
+                                                    <td><span th:text="${item.getTenSanPham()}"></span> <strong> x <span
+                                                            th:text="${item.getSoLuong()}"></span></strong></td>
+                                                    <td><span th:text="${item.getGiaTien() * item.getSoLuong()}"></span>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total</th>
+                                                <td th:text="'$' + ${total}"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Cart view section -->
+
+<div th:replace="footer"></div>
+
+</body>
+</html>

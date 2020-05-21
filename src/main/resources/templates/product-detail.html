@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daily Shop | Product Detail</title>
+</head>
+<body>
+
+<div th:replace="header"></div>
+
+<!-- catg header banner section -->
+<section id="aa-catg-head-banner">
+    <img th:src="@{/img/slider/abstrakt-banners.jpg}" alt="fashion img">
+    <div class="aa-catg-head-banner-area">
+        <div class="container">
+            <div class="aa-catg-head-banner-content">
+                <h2>T-Shirt</h2>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li class="active">T-shirt</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / catg header banner section -->
+
+<!-- product category -->
+<section id="aa-product-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-product-details-area">
+                    <div class="aa-product-details-content">
+                        <div class="row">
+                            <!-- Modal view slider -->
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="aa-product-view-slider">
+                                    <div id="demo-1" class="simpleLens-gallery-container">
+                                        <div class="simpleLens-container">
+                                            <div class="simpleLens-big-image-container">
+                                                <a data-lens-image="img/view-slider/large/polo-shirt-1.png"
+                                                   class="simpleLens-lens-image">
+                                                    <img th:src="@{/img/product/} + ${sanpham.getHinhAnh()}"
+                                                         class="simpleLens-big-image">
+                                                </a>
+                                                <br><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a th:href="@{/}" class="btn btn-warning" style="font-size: 30px">Tiếp tục mua sắm</a>
+                            </div>
+                            <!-- Modal view content -->
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <div class="aa-product-view-content">
+                                    <h3><b th:text="${sanpham.getTenSanPham()}" style="color: #122b40"></b></h3>
+                                    <div class="aa-price-block">
+                                        <span class="aa-product-view-price"><b th:text="'$ ' + ${sanpham.getGiaTien()}"
+                                                                               style="color: red"></b></span>
+                                        <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                                    </div>
+                                    <br>
+                                    <h4><b style="color: #122b40">Description:</b></h4>
+                                    <p th:text="${sanpham.getMoTa()}"></p>
+                                    <div>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Size</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Select</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <th:block th:each="item: ${chitiets}">
+                                                <tr>
+                                                    <td th:text="${item.getSizesanpham().getSize()}"></td>
+                                                    <td th:text="${item.getMausanpham().getMau()}"></td>
+                                                    <td th:text="${item.getSoLuong()}"></td>
+                                                    <td>
+                                                        <button th:data-idChiTiet="${item.getIdChiTietSanPham()}"
+                                                                class="btnAddToCart aa-primary-btn">Add to card
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / product category -->
+
+<div th:replace="footer"></div>
+
+</body>
+</html>

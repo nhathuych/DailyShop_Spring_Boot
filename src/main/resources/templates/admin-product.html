@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SB Admin 2 - Products</title>
+
+    <link href="/adminsrc/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/adminsrc/css/fonts.googleapis.com.css" rel="stylesheet">
+    <link href="/adminsrc/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body id="page-top">
+
+    <div id="wrapper">
+        <div th:replace="sidebar-admin"></div>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div th:replace="header-admin"></div>
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="dropdown">
+                                <span class="m-0 font-weight-bold text-primary" style="font-size: 25px">Danh mục:</span>
+                                <button th:text="${tendanhmuc != null ? tendanhmuc : danhmuc.iterator().next().getTenDanhMuc()}"
+                                        class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <th:block th:each="item : ${danhmuc}">
+                                        <a class="dropdown-item" th:href="@{/admin/product/} + ${item.getMetaTitle()}"
+                                           th:text="${item.getTenDanhMuc()}"></a>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <th:block th:each="item: ${sanphams}">
+                                        <tr th:id="'tr' + ${item.getIdSanPham()}">
+                                            <td><img th:src="'/img/product/' + ${item.getHinhAnh()}"
+                                                     style="height: 60px; width: 50px"></td>
+                                            <td th:text="${item.getIdSanPham()}"></td>
+                                            <td th:text="${item.getTenSanPham()}"></td>
+                                            <td th:text="${item.getGiaTien()}"></td>
+                                            <td>
+                                                <button th:data-id="${item.getIdSanPham()}"
+                                                        class="btnUpdateProduct btn btn-info">Update
+                                                </button>
+                                                <button th:data-id="${item.getIdSanPham()}" class="btnDetail btn btn-danger"
+                                                        data-toggle="modal" data-target="#updateModal">Detail
+                                                </button>
+                                                <button th:data-id="${item.getIdSanPham()}"
+                                                        class="btnXoaSanPham btn btn-warning">Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                        <th:block th:each="i: ${#numbers.sequence(1, pages)}">
+                                            <li class="page-item">
+                                                <button th:data-idDanhMuc="${idDanhMuc}" class="myPagination page-link"
+                                                        th:text="${i}"></button>
+                                            </li>
+                                        </th:block>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+
+                        <!-- thêm / sửa sản phẩm -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form action='' method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h3 id="txtThemVaSua" style="text-align: center; margin-bottom: 50px;">Thêm sản phẩm</h3>
+                                                <label for="masp"><b>Mã sản phẩm: </b></label>
+                                                <input id="masp" name="masp" type="text" readonly class="form-control">
+                                                <br/>
+
+                                                <label for="tensp"><b>Tên sản phẩm</b></label> <br/>
+                                                <input id="tensp" name="tensp" type="text" class="form-control" placeholder="Tên sản phẩm"> <br/>
+
+                                                <label for="danhmucsp"><b>Danh mục sản phẩm</b></label> <br/>
+                                                <select id="danhmucsp" name="danhmucsp" class="form-control">
+                                                    <th:block th:each="dm: ${danhmuc}">
+                                                        <option th:value="${dm.getIdDanhMuc()}" th:text="${dm.getTenDanhMuc()}"></option>
+                                                    </th:block>
+                                                </select> <br>
+
+                                                <label for="giasp"><b>Giá tiền</b></label> <br/>
+                                                <input id="giasp" name="giasp" type="number" class="form-control" min="0" value="0"> <br/>
+
+                                                <label><b>Giới tính</b></label> <br/>
+                                                <div>
+                                                    <input id="rdbMale" name="gioitinh" type="radio" value="male">male
+                                                    <br>
+                                                    <input id="rdbFemale" name="gioitinh" type="radio" value="female">female
+                                                    <br>
+                                                    <input id="rdbNoSex" name="gioitinh" checked="checked" type="radio" value="nosex">no sex
+                                                </div>
+                                                <br/>
+
+                                                <label for="mota"><b>Mô tả</b></label> <br/>
+                                                <textarea id="mota" name="mota" class="form-control" rows="5" placeholder="Mô tả ngắn gọn........"></textarea> <br/>
+
+                                                <label for="hinhsp"><b>Hình ảnh</b></label> <br/>
+                                                <input id="hinhsp" name="hinhsp" type="file" class="form-control"> <br/>
+
+                                                <input id="btnThemSanPham" name="btnThemSanPham" type="submit" class="btn btn-success" value="Thêm mới">
+                                                <input id="btnCapNhatSanPham" name="btnCapNhatSanPham" type="submit" class="hidden btn btn-success" value="Cập nhật">
+                                                <a href="" id="btnThoatCapNhat" class="hidden btn btn-success" style="float: right;">Thoát cập nhật</a>
+                                                <br/>
+                                                <div><span style="color: red; margin-top: 10px;" th:text="${msgThemSanPham}"></span></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="tableChiTietSP" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Size</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>XXL</td>
+                            <td>Blue</td>
+                            <td>123</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form th:action="@{''}" method="post">
+                    <div class="modal-body">
+                        <span>Id sản phẩm:</span>
+                        <input id="idSanPham" name="idSanPham" readonly class="form-control">
+                        <label for="size">Size:</label>
+                        <select id="size" name="idSize" class="form-control">
+                            <th:block th:each="size: ${sizes}">
+                                <option th:value="${size.getIdSize()}" th:text="${size.getSize()}"></option>
+                            </th:block>
+                        </select>
+                        <label for="color">Color:</label>
+                        <select id="color" name="idColor" class="form-control">
+                            <th:block th:each="color: ${colors}">
+                                <option th:value="${color.getIdMau()}" th:text="${color.getMau()}"></option>
+                            </th:block>
+                        </select>
+                        <label for="quantity">Quantity:</label>
+                        <input id="quantity" name="quantity" type="number" class="quantity form-control" value="0">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <input type="submit" id="btnThemChiTiet" name="btnThemChiTiet" value="Confirm"
+                               class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="bottom-admin"></div>
+
+</body>
+</html>

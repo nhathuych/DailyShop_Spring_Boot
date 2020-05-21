@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bill</title>
+
+    <link href="/adminsrc/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/adminsrc/css/fonts.googleapis.com.css" rel="stylesheet">
+    <link href="/adminsrc/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+
+    <div id="wrapper">
+        <div th:replace="sidebar-admin"></div>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div th:replace="header-admin"></div>
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div>
+                                <h3>Danh sách hóa đơn</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped border">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Khách hàng</th>
+                                        <th scope="col">Số điện thoại</th>
+                                        <th scope="col">Ngày lập</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <th:block th:each="item: ${dsBill}">
+                                        <tr>
+                                            <th scope="row" th:text="${item.getIdHoaDon()}"></th>
+                                            <td th:text="${item.getTenKhachHang()}"></td>
+                                            <td th:text="${item.getSdt()}"></td>
+                                            <td th:text="${item.getNgayLap()}"></td>
+                                        </tr>
+                                    </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="bottom-admin"></div>
+
+</body>
+</html>
